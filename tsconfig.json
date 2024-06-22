@@ -1,3 +1,6 @@
 {
   "extends": "@tsconfig/node20/tsconfig.json", // tsconfig.jsonファイルの拡張
+  "compilerOptions": {
+    "outDir": "./dist",
+  }
 }
