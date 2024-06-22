@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/Ko-s-y/hangman/issues"
   },
-  "homepage": "https://github.com/Ko-s-y/hangman#readme"
+  "homepage": "https://github.com/Ko-s-y/hangman#readme",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
 }
