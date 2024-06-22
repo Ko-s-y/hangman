@@ -1,0 +1,20 @@
+{
+  "name": "hangman",
+  "version": "1.0.0",
+  "description": "- 出題される単語はTSに関連するもの - 回答者には単語のヒントを提示する - ２文字以上の回答も可能とする",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ko-s-y/hangman.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ko-s-y/hangman/issues"
+  },
+  "homepage": "https://github.com/Ko-s-y/hangman#readme"
+}
