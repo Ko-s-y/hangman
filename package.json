@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/Ko-s-y/hangman#readme",
   "devDependencies": {
+    "@tsconfig/node20": "^20.1.4",
     "typescript": "^5.2.2"
   }
 }
