@@ -4,7 +4,7 @@
   "description": "- 出題される単語はTSに関連するもの - 回答者には単語のヒントを提示する - ２文字以上の回答も可能とする",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "tsc && node dist/hangman.js"
   },
   "repository": {
     "type": "git",
