@@ -19,4 +19,14 @@ class Quiz {
     const [question] = this.questions.splice(idx, 1);
     return question;
   }
+
+  // 次の質問が存在するか確認
+  hasNext(): boolean {
+    return this.questions.length > 0;
+  }
+
+  // 残りの質問数を取得
+  lefts(): number {
+    return this.questions.length;
+  }
 }
