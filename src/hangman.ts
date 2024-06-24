@@ -6,13 +6,17 @@ interface Question {
 }
 
 const questions: Question[] = rawData;
-console.log(questions)
 
 class Quiz {
   questions: Question[];
   constructor(questions: Question[]) {
     this.questions = questions;
   }
+
+  // ランダムに質問を取得して、その質問をリストから削除
+  getNext(): Question {
+    const idx = Math.floor(Math.random() * this.questions.length);
+    const [question] = this.questions.splice(idx, 1);
+    return question;
+  }
 }
-const quiz = new Quiz(questions)
-console.log(quiz)
