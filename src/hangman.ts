@@ -5,7 +5,13 @@ interface Question {
   hint: string;
 }
 
-const questions: Question[] = rawData;
+interface UserInterFace {
+  input(): Promise<string>;
+  clear(): void;
+  destroy(): void;
+  output(message: string, color?: Color):void
+  outputAnswer(message: string): void
+}
 
 class Quiz {
   questions: Question[];
@@ -30,3 +36,6 @@ class Quiz {
     return this.questions.length;
   }
 }
+
+const questions: Question[] = rawData;
+const quiz = new Quiz(questions);
