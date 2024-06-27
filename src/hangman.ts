@@ -4,7 +4,7 @@ interface Question {
   word: string;
   hint: string;
 }
-
+type Color = "red" | "green" | "yellow" | "white"
 interface UserInterFace {
   input(): Promise<string>;
   clear(): void;
