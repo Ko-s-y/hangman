@@ -1,3 +1,4 @@
+import readLinePromises from "readline/promises"
 import rawData from "./data/questions.test.json"
 
 interface Question {
@@ -12,6 +13,11 @@ interface UserInterFace {
   output(message: string, color?: Color):void
   outputAnswer(message: string): void
 }
+
+const rl = readLinePromises.createInterface({
+  input: process.stdin,
+  output: process.stdout,
+})
 
 class Quiz {
   questions: Question[];
