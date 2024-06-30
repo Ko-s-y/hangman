@@ -23,6 +23,9 @@ const CLI: UserInterFace = {
     const input = await rl.question("文字または単語を推測してください:");
     return input.replaceAll(" ", "").toLowerCase();
   }
+  clear() {
+    console.clear(); // コンソール画面のクリア
+  },
 }
 
 class Quiz {
