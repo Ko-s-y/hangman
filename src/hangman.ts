@@ -1,5 +1,6 @@
 import readLinePromises from "readline/promises"
 import rawData from "./data/questions.test.json"
+import chalk from "chalk";
 
 interface Question {
   word: string;
@@ -22,7 +23,7 @@ const CLI: UserInterFace = {
   async input() {
     const input = await rl.question("文字または単語を推測してください:");
     return input.replaceAll(" ", "").toLowerCase();
-  }
+  },
   clear() {
     console.clear(); // コンソール画面のクリア
   },
