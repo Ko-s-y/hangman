@@ -26,6 +26,9 @@ const CLI: UserInterFace = {
   clear() {
     console.clear(); // コンソール画面のクリア
   },
+  destroy() {
+    rl.close(); // readlineインターフェイスの終了
+  },
 }
 
 class Quiz {
