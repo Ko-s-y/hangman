@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Ko-s-y/hangman#readme",
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
+    "@types/figlet": "^1.5.8",
     "@types/node": "^20.14.8",
     "typescript": "^5.2.2"
   },
