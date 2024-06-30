@@ -7,7 +7,6 @@ interface Question {
 }
 type Color = "red" | "green" | "yellow" | "white"
 interface UserInterFace {
-  input(): Promise<string>;
   clear(): void;
   destroy(): void;
   output(message: string, color?: Color):void
@@ -18,6 +17,13 @@ const rl = readLinePromises.createInterface({
   input: process.stdin,
   output: process.stdout,
 })
+
+const CLI: UserInterFace = {
+  async input() {
+    const input = await rl.question("文字または単語を推測してください:");
+    return input.replaceAll(" ", "").toLowerCase();
+  }
+}
 
 class Quiz {
   questions: Question[];
