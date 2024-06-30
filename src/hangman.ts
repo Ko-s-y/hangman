@@ -30,6 +30,9 @@ const CLI: UserInterFace = {
   destroy() {
     rl.close(); // readlineインターフェイスの終了
   },
+  output(message: string, color: Color = "white") {
+    console.log(chalk[color](message), "\n");
+  },
 }
 
 class Quiz {
