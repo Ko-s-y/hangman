@@ -8,6 +8,7 @@ interface Question {
 }
 type Color = "red" | "green" | "yellow" | "white"
 interface UserInterFace {
+  input(): Promise<string>
   clear(): void;
   destroy(): void;
   output(message: string, color?: Color):void
