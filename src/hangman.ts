@@ -166,6 +166,125 @@ class Message {
   }
 }
 
+interface GameState {
+  stage: Stage; // 現在のステージ情報。質問や解答、試行回数などを持つ
+  done: boolean; // ゲームが終了したかどうかを示すフラグ。trueの場合、ゲームはすでに終了している
+}
+class Game {
+  quiz: Quiz; // ゲーム内のクイズの情報を持つ。
+  message: Message; // ゲーム内のメッセージ管理を担当する。
+  stage: Stage; // 現在のゲームステージ。
+  ui: UserInterface; // ゲームのUIとのインタラクションを担当する。
+
+  constructor(quiz: Quiz, message: Message, ui: UserInterface) {
+    this.quiz = quiz;
+    this.message = message;
+    this.ui = ui;
+    this.stage = new Stage(this.quiz.getNext()); // 初期ステージを設定する。
+  }
+
+  shouldEnd(): boolean {
+    if (this.stage.isGameOver()) {
+      return true;
+    }
+    // 最終問題かつ、正解した場合
+    if (!this.quiz.hasNext() && this.stage.isCorrect()) {
+      return true;
+    }
+    return false;
+  }
+
+  next(isCorrect: boolean): GameState {
+    if (!isCorrect) {
+      // 推論に間違えた場合
+      this.stage.decrementAttempts();
+    }
+
+    if (this.shouldEnd()) {
+      // ゲームを終了すると判断するとき
+      return { stage: this.stage, done: true }; // ゲーム終了のためにdoneをtrueに設定する。
+    }
+
+    if (isCorrect) {
+      // 推測が完全に一致した場合
+      this.stage = new Stage(this.quiz.getNext()); // 次のstageの情報を設定
+    }
+
+    return { stage: this.stage, done: false }; // ゲームは終了しない。
+  }
+
+  // 内部でawaitを使用しているため、asyncで宣言
+  async start(): Promise<void> {
+    this.ui.clear();
+    this.message.start();
+
+    // GameStateの初期値を設定
+    let state: GameState = {
+      stage: this.stage,
+      done: false,
+    };
+
+    // ゲームオーバーになるか、全ての問題を正解するまでループ
+    while (!state.done) {
+      if (state.stage === undefined) break;
+
+      const { stage } = state;
+
+      this.message.leftQuestions(this.quiz); // 残り何問か表示
+      this.message.askQuestion(stage);
+
+      // ユーザーの入力を待機
+      const userInput = await this.ui.input();
+
+      // 入力値チェック
+      if (!userInput) {
+        // 入力がない旨のメッセージを表示
+        this.message.enterSomething();
+        // 不正解として扱い、falseを渡してnextを呼び出し、GameStateを更新
+        state = this.next(false);
+        continue; // 以降の処理を中断し、次のループ処理を実行
+      }
+
+      // 解答状況を最新の状態に更新
+      stage.updateAnswer(userInput);
+
+      // 入力が正解と完全一致するか判定
+      if (stage.isCorrect()) {
+        this.message.correct(stage.question); // 完全に正解した旨を表示
+        state = this.next(true); // 正解したため、trueを渡してnextを呼び出す
+        continue;
+      }
+
+      // 入力の文字数が正解より長いか判定
+      if (stage.isTooLong(userInput)) {
+        this.message.notCorrect(userInput);
+        // 不正解のため、falseを渡してnextを呼び出す
+        state = this.next(false);
+        continue;
+      }
+
+      // 入力が部分的に正解に一致するか判定
+      if (stage.isIncludes(userInput)) {
+        this.message.hit(userInput);
+        continue;
+      }
+
+      // 入力がどの文字にも一致しない場合
+      this.message.notInclude(userInput);
+      state = this.next(false);
+    }
+
+    /// 試行回数が0か判定
+    if (state.stage.isGameOver()) {
+      this.message.gameover(this.stage.question); // 正解を表示
+    }
+
+    this.message.end();
+
+    this.ui.destroy();
+  }
+}
+
 const questions: Question[] = rawData;
 
 const quiz = new Quiz(questions);
