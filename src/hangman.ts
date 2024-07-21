@@ -288,3 +288,8 @@ class Game {
 const questions: Question[] = rawData;
 
 const quiz = new Quiz(questions);
+const message = new Message(CLI);
+const game = new Game(quiz, message, CLI);
+
+// ゲーム開始
+game.start();
